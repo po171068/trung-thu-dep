@@ -1,0 +1,749 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Trăng Rằm Trung Thu</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Poppins', 'Times New Roman', 'Noto Serif', serif;
+            background: linear-gradient(to bottom, #0a1128 0%, #1e3a5f 50%, #ff9966 100%);
+            min-height: 100vh;
+            overflow-x: hidden;
+            position: relative;
+            color: #6b0f1a;
+        }
+
+        .stars {
+            position: fixed;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            z-index: 0;
+        }
+
+        .star {
+            position: absolute;
+            background: white;
+            border-radius: 50%;
+            animation: twinkle 3s infinite;
+        }
+
+        @keyframes twinkle {
+            0%, 100% { opacity: 0.3; }
+            50% { opacity: 1; }
+        }
+
+        .clouds {
+            position: fixed;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            z-index: 5;
+        }
+
+        .cloud {
+            position: absolute;
+            background: rgba(255, 255, 255, 0.2);
+            border-radius: 50%;
+            filter: blur(20px);
+            animation: drift 30s linear infinite;
+        }
+
+        @keyframes drift {
+            0% { transform: translateX(-20vw); opacity: 0.5; }
+            50% { opacity: 0.8; }
+            100% { transform: translateX(120vw); opacity: 0.5; }
+        }
+
+        .fireworks {
+            position: fixed;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            z-index: 3;
+        }
+
+        .firework {
+            position: absolute;
+            width: 10px;
+            height: 10px;
+            background: radial-gradient(circle, rgba(255, 215, 0, 0.8), transparent);
+            border-radius: 50%;
+            animation: explode 2s ease-out forwards;
+        }
+
+        @keyframes explode {
+            0% { transform: scale(0); opacity: 1; }
+            100% { transform: scale(10); opacity: 0; }
+        }
+
+        .mooncakes {
+            position: fixed;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            z-index: 2;
+        }
+
+        .mooncake {
+            position: absolute;
+            font-size: 30px;
+            animation: spinMooncake 8s infinite linear;
+            opacity: 0.9;
+        }
+
+        @keyframes spinMooncake {
+            0% { transform: translate(0, 0) rotate(0deg); }
+            50% { transform: translate(20px, -40px) rotate(180deg); }
+            100% { transform: translate(0, 0) rotate(360deg); }
+        }
+
+        .butterflies {
+            position: fixed;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            z-index: 4;
+        }
+
+        .butterfly {
+            position: absolute;
+            font-size: 25px;
+            animation: flutter 6s infinite ease-in-out;
+            opacity: 0.85;
+        }
+
+        @keyframes flutter {
+            0% { transform: translate(0, 0) rotate(0deg); }
+            25% { transform: translate(30px, -20px) rotate(15deg); }
+            50% { transform: translate(-20px, -50px) rotate(-15deg); }
+            75% { transform: translate(25px, -30px) rotate(10deg); }
+            100% { transform: translate(0, 0) rotate(0deg); }
+        }
+
+        .swaying-lanterns {
+            position: fixed;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            z-index: 3;
+        }
+
+        .swaying-lantern {
+            position: absolute;
+            width: 40px;
+            height: 60px;
+            background: radial-gradient(circle at 50% 30%, #ff4040, #cc0000);
+            border-radius: 50% 50% 40% 40%;
+            animation: sway 5s infinite ease-in-out;
+            box-shadow: 0 0 15px rgba(255, 64, 64, 0.7);
+        }
+
+        @keyframes sway {
+            0% { transform: translateX(0) rotate(0deg); }
+            50% { transform: translateX(30px) rotate(10deg); }
+            100% { transform: translateX(0) rotate(0deg); }
+        }
+
+        .confetti {
+            position: fixed;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            z-index: 4;
+        }
+
+        .confetti-piece {
+            position: absolute;
+            width: 8px;
+            height: 8px;
+            background: #ffd700;
+            animation: fallConfetti 5s linear infinite;
+            opacity: 0.7;
+            transform: rotate(45deg);
+        }
+
+        @keyframes fallConfetti {
+            0% { transform: translateY(-10vh) rotate(45deg); opacity: 0.7; }
+            100% { transform: translateY(110vh) rotate(405deg); opacity: 0; }
+        }
+
+        .petals {
+            position: fixed;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            z-index: 3;
+        }
+
+        .petal {
+            position: absolute;
+            font-size: 20px;
+            animation: fallPetal 10s linear infinite;
+            opacity: 0.8;
+        }
+
+        @keyframes fallPetal {
+            0% { transform: translateY(-10vh) rotate(0deg); opacity: 0.8; }
+            50% { transform: translateY(50vh) rotate(180deg); }
+            100% { transform: translateY(110vh) rotate(360deg); opacity: 0; }
+        }
+
+        .moon-container {
+            position: absolute;
+            top: 50px;
+            left: 50%;
+            transform: translateX(-50%);
+            z-index: 10;
+        }
+
+        .moon {
+            width: 180px;
+            height: 180px;
+            background: radial-gradient(circle at 35% 35%, #fffef0, #ffe680);
+            border-radius: 50%;
+            box-shadow: 0 0 80px rgba(255, 230, 128, 0.9),
+                        0 0 120px rgba(255, 215, 0, 0.6),
+                        inset -15px -15px 30px rgba(0, 0, 0, 0.15);
+            animation: moonGlow 4s ease-in-out infinite;
+            position: relative;
+        }
+
+        .moon-crater {
+            position: absolute;
+            background: rgba(0, 0, 0, 0.08);
+            border-radius: 50%;
+        }
+
+        .crater1 { width: 25px; height: 25px; top: 30%; left: 25%; }
+        .crater2 { width: 18px; height: 18px; top: 55%; left: 40%; }
+        .crater3 { width: 20px; height: 20px; top: 45%; left: 60%; }
+        .crater4 { width: 12px; height: 12px; top: 65%; left: 30%; }
+
+        @keyframes moonGlow {
+            0%, 100% {
+                box-shadow: 0 0 80px rgba(255, 230, 128, 0.9),
+                           0 0 120px rgba(255, 215, 0, 0.6),
+                           inset -15px -15px 30px rgba(0, 0, 0, 0.15);
+            }
+            50% {
+                box-shadow: 0 0 100px rgba(255, 230, 128, 1),
+                           0 0 150px rgba(255, 215, 0, 0.8),
+                           inset -15px -15px 30px rgba(0, 0, 0, 0.15);
+            }
+        }
+
+        .chat-container {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            z-index: 20;
+            width: 500px;
+            max-width: 90%;
+        }
+
+        .chat-box {
+            background: rgba(255, 249, 230, 0.95);
+            padding: 30px;
+            border-radius: 25px;
+            box-shadow: 0 30px 80px rgba(0, 0, 0, 0.6),
+                        0 0 50px rgba(255, 215, 0, 0.3);
+            border: 4px solid #ffd700;
+            backdrop-filter: blur(15px);
+            position: relative;
+            min-height: 200px;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+        }
+
+        .chat-box::before {
+            content: '';
+            position: absolute;
+            top: -4px;
+            left: -4px;
+            right: -4px;
+            bottom: -4px;
+            background: linear-gradient(45deg, #ff6b9d, #ffd700, #ff6b35, #c44569, #ff6b9d);
+            border-radius: 25px;
+            z-index: -1;
+            opacity: 0.7;
+            animation: borderGlow 4s linear infinite;
+            background-size: 400% 400%;
+        }
+
+        @keyframes borderGlow {
+            0% { background-position: 0% 50%; }
+            50% { background-position: 100% 50%; }
+            100% { background-position: 0% 50%; }
+        }
+
+        .message {
+            font-size: 24px;
+            color: #c44569;
+            text-align: center;
+            font-weight: bold;
+            margin-bottom: 25px;
+            line-height: 1.6;
+            opacity: 0;
+            animation: fadeInUp 0.6s ease forwards;
+        }
+
+        @keyframes fadeInUp {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .next-btn {
+            background: linear-gradient(135deg, #ff6b9d, #ff4d7d);
+            color: white;
+            border: none;
+            padding: 15px 40px;
+            font-size: 18px;
+            border-radius: 50px;
+            cursor: pointer;
+            font-weight: bold;
+            margin: 0 auto;
+            display: block;
+            box-shadow: 0 8px 20px rgba(255, 107, 157, 0.4);
+            transition: all 0.3s ease;
+        }
+
+        .next-btn:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 12px 30px rgba(255, 107, 157, 0.6);
+            background: linear-gradient(135deg, #ff4d7d, #ff6b9d);
+        }
+
+        .next-btn:active {
+            transform: translateY(-1px);
+        }
+
+        .progress-dots {
+            display: flex;
+            justify-content: center;
+            gap: 10px;
+            margin-top: 20px;
+        }
+
+        .dot {
+            width: 12px;
+            height: 12px;
+            border-radius: 50%;
+            background: #ddd;
+            transition: all 0.3s ease;
+        }
+
+        .dot.active {
+            background: #ff6b9d;
+            transform: scale(1.3);
+        }
+
+        .sky-lanterns {
+            position: fixed;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            z-index: 1;
+        }
+
+        .sky-lantern {
+            position: absolute;
+            bottom: -150px;
+            animation: flyUp 12s linear infinite;
+            opacity: 0;
+        }
+
+        .sky-lantern-body {
+            width: 50px;
+            height: 70px;
+            background: radial-gradient(circle at 50% 30%, #ff5050, #cc0000);
+            border-radius: 50% 50% 40% 40%;
+            position: relative;
+            box-shadow: 0 0 40px rgba(255, 150, 100, 0.9),
+                        inset 0 -25px 25px rgba(255, 200, 150, 0.6);
+        }
+
+        .sky-lantern-top {
+            width: 55px;
+            height: 10px;
+            background: linear-gradient(135deg, #ff6b35, #ff8c5a);
+            border-radius: 12px;
+            position: absolute;
+            top: -5px;
+            left: -2.5px;
+        }
+
+        .sky-lantern-bottom {
+            width: 35px;
+            height: 25px;
+            border-left: 2px solid rgba(255, 200, 150, 0.7);
+            border-right: 2px solid rgba(255, 200, 150, 0.7);
+            position: absolute;
+            bottom: -25px;
+            left: 50%;
+            transform: translateX(-50%);
+        }
+
+        .sky-lantern-bottom::before {
+            content: '';
+            position: absolute;
+            width: 8px;
+            height: 8px;
+            background: rgba(255, 200, 100, 0.95);
+            border-radius: 50%;
+            bottom: -4px;
+            left: 50%;
+            transform: translateX(-50%);
+            box-shadow: 0 0 15px rgba(255, 150, 100, 1);
+            animation: flicker 1.5s ease-in-out infinite;
+        }
+
+        @keyframes flicker {
+            0%, 100% { opacity: 1; }
+            50% { opacity: 0.7; }
+        }
+
+        @keyframes flyUp {
+            0% { bottom: -150px; opacity: 0; transform: translateX(0) rotate(0deg); }
+            10% { opacity: 0.95; }
+            90% { opacity: 0.95; }
+            100% { bottom: 110vh; opacity: 0; transform: translateX(50px) rotate(10deg); }
+        }
+
+        .floating-icons {
+            position: fixed;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            z-index: 2;
+        }
+
+        .floating-icon {
+            position: absolute;
+            font-size: 30px;
+            animation: floatAround 10s infinite ease-in-out;
+            opacity: 0.8;
+        }
+
+        .rabbit-icon {
+            position: absolute;
+            font-size: 35px;
+            animation: hopAround 8s infinite ease-in-out;
+            opacity: 0.85;
+        }
+
+        @keyframes floatAround {
+            0%, 100% { transform: translate(0, 0) rotate(0deg); }
+            25% { transform: translate(20px, -30px) rotate(8deg); }
+            50% { transform: translate(-15px, -60px) rotate(-8deg); }
+            75% { transform: translate(30px, -30px) rotate(4deg); }
+            100% { transform: translate(0, 0) rotate(0deg); }
+        }
+
+        @keyframes hopAround {
+            0%, 100% { transform: translate(0, 0) scale(1); }
+            25% { transform: translate(25px, -20px) scale(1.1); }
+            50% { transform: translate(-20px, -50px) scale(0.9); }
+            75% { transform: translate(30px, -30px) scale(1.05); }
+            100% { transform: translate(0, 0) scale(1); }
+        }
+
+        .icon-1 { top: 15%; left: 10%; animation-delay: 0s; }
+        .icon-2 { top: 25%; right: 15%; animation-delay: 2s; }
+        .icon-3 { top: 60%; left: 8%; animation-delay: 4s; }
+        .icon-4 { top: 70%; right: 12%; animation-delay: 1s; }
+        .icon-5 { top: 40%; left: 5%; animation-delay: 3s; }
+        .icon-6 { top: 50%; right: 8%; animation-delay: 5s; }
+        .icon-7 { top: 20%; left: 20%; animation-delay: 1.5s; }
+        .icon-8 { top: 65%; right: 10%; animation-delay: 3.5s; }
+        .icon-9 { top: 30%; left: 15%; animation-delay: 2.5s; }
+        .icon-10 { top: 55%; right: 20%; animation-delay: 4s; }
+
+        @media (max-width: 768px) {
+            .moon {
+                width: 120px;
+                height: 120px;
+            }
+
+            .chat-container {
+                width: 95%;
+            }
+
+            .message {
+                font-size: 20px;
+            }
+
+            .floating-icon, .rabbit-icon, .mooncake, .butterfly, .petal {
+                font-size: 20px;
+            }
+
+            .swaying-lantern {
+                width: 30px;
+                height: 45px;
+            }
+
+            .sky-lantern-body {
+                width: 40px;
+                height: 60px;
+            }
+
+            .sky-lantern-top {
+                width: 45px;
+            }
+
+            .sky-lantern-bottom {
+                width: 30px;
+                height: 20px;
+            }
+
+            .cloud {
+                transform: scale(0.7);
+            }
+
+            .firework, .confetti-piece {
+                transform: scale(0.6);
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="stars" id="stars"></div>
+    <div class="clouds" id="clouds"></div>
+    <div class="fireworks" id="fireworks"></div>
+    <div class="sky-lanterns" id="skyLanterns"></div>
+    <div class="mooncakes" id="mooncakes"></div>
+    <div class="butterflies" id="butterflies"></div>
+    <div class="swaying-lanterns" id="swayingLanterns"></div>
+    <div class="confetti" id="confetti"></div>
+    <div class="petals" id="petals"></div>
+    <div class="floating-icons">
+        <div class="floating-icon icon-1">🥮</div>
+        <div class="floating-icon icon-2">🌕</div>
+        <div class="floating-icon icon-3">🏮</div>
+        <div class="floating-icon icon-4">✨</div>
+        <div class="rabbit-icon icon-5">🐰</div>
+        <div class="floating-icon icon-6">⭐</div>
+        <div class="rabbit-icon icon-7">🐇</div>
+        <div class="floating-icon icon-8">🌸</div>
+        <div class="floating-icon icon-9">🎐</div>
+        <div class="floating-icon icon-10">💖</div>
+    </div>
+    <div class="moon-container">
+        <div class="moon">
+            <div class="moon-crater crater1"></div>
+            <div class="moon-crater crater2"></div>
+            <div class="moon-crater crater3"></div>
+            <div class="moon-crater crater4"></div>
+        </div>
+    </div>
+    <div class="chat-container">
+        <div class="chat-box">
+            <div class="message" id="message"></div>
+            <button class="next-btn" id="nextBtn">Tiếp theo</button>
+            <div class="progress-dots" id="progressDots"></div>
+        </div>
+    </div>
+
+    <script>
+        const messages = [
+            'Chào em, tôi là cơn bão mà em hay chê đây! 🌙',
+            'Chúc em một đêm trăng rằm thật đẹp, tràn ngập niềm vui bên gia đình và người thân nhé! ✨',
+            'Trung thu năm nay chưa chở em đi chơi được, nhưng hẹn em dịp gần nhất nhaaa! 🥮',
+            'Tôi chả biết làm gì, thả thính cho em dùng tạm nè: 💕',
+            'Ghét trà đào vì ưng mỗi kem-Bơ, người khác vì ưng mỗi emmmm! 😘',
+            'Chưa hết đâu, tiếp nè: 🏮',
+            'Ta thiếu vàng đó là nợ - Ta thiếu vợ đó là nàngggg! 🥮',
+            'Sáng mơ màng - trưa hoang mang - chiều loạng choạng - tối nhớ nàng :)) 🌙',
+            'Chúc em một mùa Trung Thu an yên, trọn vẹn, mọi điều tốt đẹp sẽ đến với em! ❤️',
+            'Nhớ em nhiều, thật nhiềuuuu! 🥮 ❤️'
+        ];
+
+        let currentIndex = 0;
+        const messageEl = document.getElementById('message');
+        const nextBtn = document.getElementById('nextBtn');
+        const dotsContainer = document.getElementById('progressDots');
+
+        // Create progress dots
+        messages.forEach((_, index) => {
+            const dot = document.createElement('div');
+            dot.className = 'dot';
+            if (index === 0) dot.classList.add('active');
+            dotsContainer.appendChild(dot);
+        });
+
+        const dots = document.querySelectorAll('.dot');
+
+        function showMessage() {
+            messageEl.style.animation = 'none';
+            setTimeout(() => {
+                messageEl.textContent = messages[currentIndex];
+                messageEl.style.animation = 'fadeInUp 0.6s ease forwards';
+            }, 10);
+
+            dots.forEach((dot, index) => {
+                dot.classList.toggle('active', index === currentIndex);
+            });
+
+            nextBtn.textContent = currentIndex === messages.length - 1 ? 'Xem lại' : 'Tiếp theo';
+        }
+
+        nextBtn.addEventListener('click', () => {
+            currentIndex = (currentIndex + 1) % messages.length;
+            showMessage();
+        });
+
+        // Show first message
+        showMessage();
+
+        // Create stars
+        const starsContainer = document.getElementById('stars');
+        for (let i = 0; i < 150; i++) {
+            const star = document.createElement('div');
+            star.className = 'star';
+            star.style.left = Math.random() * 100 + '%';
+            star.style.top = Math.random() * 100 + '%';
+            const size = Math.random() * 3 + 1;
+            star.style.width = size + 'px';
+            star.style.height = size + 'px';
+            star.style.animationDelay = Math.random() * 3 + 's';
+            starsContainer.appendChild(star);
+        }
+
+        // Create clouds
+        const cloudsContainer = document.getElementById('clouds');
+        for (let i = 0; i < 10; i++) {
+            const cloud = document.createElement('div');
+            cloud.className = 'cloud';
+            cloud.style.left = Math.random() * 100 + '%';
+            cloud.style.top = Math.random() * 80 + '%';
+            const size = Math.random() * 100 + 50;
+            cloud.style.width = size + 'px';
+            cloud.style.height = size / 2 + 'px';
+            cloud.style.animationDuration = (20 + Math.random() * 20) + 's';
+            cloud.style.animationDelay = Math.random() * 10 + 's';
+            cloudsContainer.appendChild(cloud);
+        }
+
+        // Create fireworks
+        const fireworksContainer = document.getElementById('fireworks');
+        function createFirework() {
+            const firework = document.createElement('div');
+            firework.className = 'firework';
+            firework.style.left = Math.random() * 100 + '%';
+            firework.style.top = Math.random() * 80 + '%';
+            const colors = ['#ff5050', '#ffd700', '#ff6b9d', '#00ffcc'];
+            firework.style.background = `radial-gradient(circle, ${colors[Math.floor(Math.random() * colors.length)]}, transparent)`;
+            fireworksContainer.appendChild(firework);
+            setTimeout(() => firework.remove(), 2000);
+        }
+
+        setInterval(createFirework, 2500);
+        for (let i = 0; i < 4; i++) {
+            setTimeout(createFirework, i * 800);
+        }
+
+        // Create spinning mooncakes
+        const mooncakesContainer = document.getElementById('mooncakes');
+        for (let i = 0; i < 8; i++) {
+            const mooncake = document.createElement('div');
+            mooncake.className = 'mooncake';
+            mooncake.textContent = '🥮';
+            mooncake.style.left = Math.random() * 90 + 5 + '%';
+            mooncake.style.top = Math.random() * 80 + 10 + '%';
+            mooncake.style.animationDelay = Math.random() * 5 + 's';
+            mooncakesContainer.appendChild(mooncake);
+        }
+
+        // Create fluttering butterflies
+        const butterfliesContainer = document.getElementById('butterflies');
+        for (let i = 0; i < 8; i++) {
+            const butterfly = document.createElement('div');
+            butterfly.className = 'butterfly';
+            butterfly.textContent = '🦋';
+            butterfly.style.left = Math.random() * 90 + 5 + '%';
+            butterfly.style.top = Math.random() * 80 + 10 + '%';
+            butterfly.style.animationDelay = Math.random() * 4 + 's';
+            butterfliesContainer.appendChild(butterfly);
+        }
+
+        // Create swaying lanterns
+        const swayingLanternsContainer = document.getElementById('swayingLanterns');
+        for (let i = 0; i < 6; i++) {
+            const lantern = document.createElement('div');
+            lantern.className = 'swaying-lantern';
+            lantern.style.left = Math.random() * 90 + 5 + '%';
+            lantern.style.top = Math.random() * 80 + 10 + '%';
+            lantern.style.animationDelay = Math.random() * 3 + 's';
+            swayingLanternsContainer.appendChild(lantern);
+        }
+
+        // Create confetti
+        const confettiContainer = document.getElementById('confetti');
+        function createConfetti() {
+            const confetti = document.createElement('div');
+            confetti.className = 'confetti-piece';
+            confetti.style.left = Math.random() * 100 + '%';
+            confetti.style.animationDelay = Math.random() * 5 + 's';
+            const colors = ['#ffd700', '#ff6b9d', '#00ffcc', '#ff4040'];
+            confetti.style.background = colors[Math.floor(Math.random() * colors.length)];
+            confettiContainer.appendChild(confetti);
+            setTimeout(() => confetti.remove(), 6000);
+        }
+
+        setInterval(createConfetti, 1000);
+        for (let i = 0; i < 10; i++) {
+            setTimeout(createConfetti, i * 500);
+        }
+
+        // Create falling petals
+        const petalsContainer = document.getElementById('petals');
+        function createPetal() {
+            const petal = document.createElement('div');
+            petal.className = 'petal';
+            petal.textContent = '🌸';
+            petal.style.left = Math.random() * 100 + '%';
+            petal.style.animationDelay = Math.random() * 6 + 's';
+            petal.style.animationDuration = (8 + Math.random() * 4) + 's';
+            petalsContainer.appendChild(petal);
+            setTimeout(() => petal.remove(), 12000);
+        }
+
+        setInterval(createPetal, 1500);
+        for (let i = 0; i < 8; i++) {
+            setTimeout(createPetal, i * 600);
+        }
+
+        // Create sky lanterns
+        const skyLanternsContainer = document.getElementById('skyLanterns');
+        function createSkyLantern() {
+            const lantern = document.createElement('div');
+            lantern.className = 'sky-lantern';
+            lantern.style.left = (10 + Math.random() * 80) + '%';
+            lantern.style.animationDelay = Math.random() * 3 + 's';
+            lantern.style.animationDuration = (10 + Math.random() * 4) + 's';
+            lantern.innerHTML = `
+                <div class="sky-lantern-body">
+                    <div class="sky-lantern-top"></div>
+                    <div class="sky-lantern-bottom"></div>
+                </div>
+            `;
+            skyLanternsContainer.appendChild(lantern);
+            setTimeout(() => lantern.remove(), 15000);
+        }
+
+        setInterval(createSkyLantern, 1800);
+        for (let i = 0; i < 6; i++) {
+            setTimeout(createSkyLantern, i * 900);
+        }
+    </script>
+</body>
+</html>
